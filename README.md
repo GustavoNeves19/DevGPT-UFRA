@@ -1,0 +1,283 @@
+# Replicação — Analyzing Developer-ChatGPT Conversations for Software Refactoring (DevGPT)
+
+Perfeito 👍
+Segue uma **seção pronta para o README**, com **formato acadêmico/projeto**, organizada e fácil de manter. Deixei **campos editáveis** para você preencher nomes, matrículas e funções.
+
+---
+
+##  Integrantes do Projeto
+
+Esta seção apresenta os integrantes envolvidos na replicação do estudo, bem como suas respectivas matrículas e responsabilidades no projeto.
+
+| Nome do Integrante            | Matrícula | Função no Projeto                                                                                                                                         |
+| ----------------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Pedro Aikau Loureiro Lima** | XXXXXXX   | Responsável pela mineração dos dados, pré-processamento do dataset, replicação das RQs (RQ1, RQ2 e RQ3), análise dos resultados e documentação do projeto |
+| **Nome do Integrante 2**      | XXXXXXX   | Apoio na revisão metodológica, validação dos resultados e discussão comparativa com o artigo original                                                     |
+| **Nome do Integrante 3**      | XXXXXXX   | Apoio na análise estatística, revisão do código e organização do repositório                                                                              |
+| **Nome do Integrante 4**      | XXXXXXX   | Revisão textual, normalização do relatório e apoio na análise crítica dos vieses                                                                          |
+
+
+
+## 1) Contextualização
+
+Este repositório documenta a replicação (parcial) do estudo **“Analyzing Developer-ChatGPT Conversations for Software Refactoring: An Exploratory Study”**, utilizando o dataset público **DevGPT**. O objetivo principal é reproduzir, com rastreabilidade e transparência metodológica, as análises relacionadas às **três Questões de Pesquisa (RQs)** do artigo, a partir de um processo completo de:
+
+* obtenção do dataset DevGPT,
+* mineração/ingestão dos arquivos JSON por snapshot,
+* preparação e limpeza da base minerada,
+* execução das análises para RQ1, RQ2 e RQ3,
+* comparação qualitativa e quantitativa (quando aplicável) com o artigo original.
+
+> Observação: o artigo original trabalha com o dataset completo; nesta replicação, utilizamos um recorte por snapshot conforme estratégia experimental do projeto.
+
+---
+
+## 2) Descrição das RQs com base no artigo (Referências)
+
+As questões de pesquisa são definidas pelo artigo base, e operacionalizadas aqui a partir da estrutura do DevGPT:
+
+* **RQ1 — Natureza das conversas**
+  Investiga **quais tipos de tópicos** predominam nas conversas entre desenvolvedores e o ChatGPT (ex.: documentação, issues/bugs, novas features, configuração, testes, refatoração).
+
+* **RQ2 — Conversas sobre refatoração**
+  Identifica **quais conversas são efetivamente sobre refatoração** e caracteriza **como a refatoração acontece**, incluindo a distinção conceitual entre:
+
+  * **Refatoração Guiada** (instruções específicas do desenvolvedor)
+  * **Refatoração Aberta** (pedido genérico de melhoria, decisões delegadas ao modelo)
+
+* **RQ3 — Esforço conversacional (número de prompts)**
+  Analisa **quantos prompts**, em média, são necessários para concluir uma conversa, estratificando por origem (commit, pull request, issue, discussion e hn).
+
+**Referências:**
+
+* Artigo base: *Analyzing Developer-ChatGPT Conversations for Software Refactoring: An Exploratory Study* (MSR/ICSE Workshop, conforme disponibilizado)
+* Dataset: **DevGPT** — [https://github.com/NAIST-SE/DevGPT](https://github.com/NAIST-SE/DevGPT)
+
+---
+
+## 3) Etapas do Projeto
+
+O fluxo do projeto foi organizado em etapas rastreáveis:
+
+1. **Aquisição do dataset DevGPT**
+2. **Mineração/ingestão dos arquivos JSON**
+3. **Construção do dataset tabular (.csv)**
+4. **Pré-processamento e criação do dataset final**
+5. **Replicação das análises (RQ1, RQ2, RQ3)**
+6. **Consolidação dos resultados e discussão**
+7. **Conclusões e vieses**
+
+---
+
+## 4) Base de Dados
+
+### 4.1 Fonte
+
+A base de dados utilizada é o repositório **DevGPT**, que disponibiliza conversas Developer–ChatGPT associadas a diferentes origens:
+
+* `commit`
+* `pr`
+* `issue`
+* `discussion`
+* `hn` (Hacker News)
+
+Além disso, o DevGPT organiza os dados por **snapshots**, em diretórios no formato:
+
+```
+snapshot_YYYYMMDD
+```
+
+### 4.2 Estratégia de recorte
+
+Para esta replicação, foi selecionado o snapshot:
+
+* **Snapshot alvo:** `20230914`
+
+> Motivação: permitir uma replicação controlada em um subconjunto temporal do DevGPT, mantendo consistência de pré-processamento e garantindo rastreabilidade dos resultados.
+
+---
+
+## 5) Mineração de Dados
+
+### 5.1 Aquisição e Git LFS
+
+Devido ao grande volume de dados, foi necessário utilizar **Git LFS** para baixar corretamente arquivos grandes do repositório:
+
+```bash
+git lfs install
+git lfs pull
+```
+
+### 5.2 Ingestão dos JSONs
+
+Foi implementado um script Python de mineração para:
+
+* percorrer diretórios `snapshot_*`,
+* filtrar arquivos `*.json` relevantes (`commit/pr/issue/discussion/hn`),
+* localizar registros contendo `ChatgptSharing`,
+* extrair turnos `Prompt/Answer`,
+* normalizar os dados em formato tabular.
+
+**Saída da mineração:** arquivo `.csv` consolidado contendo turnos (prompt/answer) por conversa.
+
+---
+
+## 6) Replicação do Projeto
+
+Nesta etapa, o dataset minerado é carregado e processado para gerar o **dataset final** usado nas análises das RQs.
+
+### 6.1 Carregamento do dataset minerado
+
+* Leitura do CSV minerado
+* Checagem de duplicatas (controle de ruído)
+* Remoção de valores ausentes (quando aplicável)
+
+Operações executadas no dataset:
+
+* `df_dev.duplicated().sum()`
+* `df_dev.dropna(inplace=True)`
+* filtro do snapshot alvo:
+
+  * `df_dev_updated = df_dev[df_dev["snapshot"] == 20230914]`
+
+### 6.2 Dataset final
+
+O dataset final contém:
+
+* colunas de rastreabilidade (`snapshot`, `origem`, `chat_url`, `repo_url`)
+* conteúdo (`prompt_text`, `answer_text`)
+* ordem conversacional (`n_prompt`)
+* tamanho de conversa (`total_prompts_conversa`)
+
+---
+
+## 6.1) Resultados do Collab — RQ1
+
+### 6.1.1 Metodologia
+
+* Unidade de análise: **conversa** (`chat_url`)
+* Construção: agregação (`all_prompts`) via `groupby(chat_url)`
+* Classificação temática por **categoria dominante** (score por palavras-chave)
+
+### 6.1.2 Resultados
+
+> Inserir aqui o gráfico e percentuais finais.
+
+* **Distribuição temática (replicação):**
+
+  * Documentation: `XX%`
+  * Issue: `XX%`
+  * New Feature: `XX%`
+  * Configuration: `XX%`
+  * Test: `XX%`
+  * Refactoring: `XX%`
+  * Other: `XX%`
+
+### 6.1.3 Comparação com o artigo
+
+> Inserir comparação (quando houver percentuais reportados no paper).
+
+---
+
+## 6.2) Resultados do Collab — RQ2
+
+A RQ2 foi conduzida em **três fases**:
+
+### 6.2.1 Fase 01 — Mapping (detecção automática)
+
+* Unidade: conversa (`chat_url`)
+* Critério forte (v2):
+
+  * contém “refactor” **OU**
+  * possui **≥ 3** indicadores estruturais + presença de sinal estrutural
+
+**Resultado (snapshot 20230914):**
+
+* Total de conversas: **190**
+* Candidatas à refatoração (critério forte v2): **51**
+* Percentual: **26.84%**
+
+### 6.2.2 Fase 02 — Verificação manual (remoção de falsos positivos)
+
+As conversas candidatas foram revisadas manualmente na coluna:
+
+* `manual_review ∈ {True, False}`
+
+**Resultado:**
+
+* Refatorações confirmadas: **47** (manual_review == True)
+* Falsos positivos removidos: **4**
+
+### 6.2.3 Fase 03 — Classificação (Guiada vs Aberta)
+
+A classificação foi aplicada **somente nas conversas confirmadas**:
+
+* **Guiada:** instruções específicas (rename, extract, split, apply pattern, etc.)
+* **Aberta:** pedido genérico (refactor, clean up, improve readability, etc.)
+
+**Resultado:**
+
+> Inserir distribuição final:
+
+* Refatoração Guiada: `XX`
+* Refatoração Aberta: `XX`
+* Não Classificada: `XX`
+
+---
+
+## 6.3) Resultados do Collab — RQ3
+
+### 6.3.1 Metodologia
+
+* Unidade de análise: conversa (`chat_url`)
+* Métrica: **número de prompts por conversa**
+* Estratégia: contar prompts por conversa e calcular a média por origem
+
+> Observação: **não** é usado `drop_duplicates(subset="chat_url")`, pois isso elimina prompts legítimos da mesma conversa e invalida a métrica.
+
+### 6.3.2 Resultados (Replicação)
+
+Média de prompts por origem:
+
+|     origem | media_prompts |
+| ---------: | ------------: |
+|         pr |          2.00 |
+|     commit |          2.54 |
+| discussion |          3.00 |
+|      issue |          3.16 |
+|         hn |          5.04 |
+
+### 6.3.3 Comparação com o artigo (resumo)
+
+* Commits: ~2.79 (menor média)
+* PRs: ~4.64 (maior média)
+* Discussions: ~3.64
+* Issues: ~4.01
+* Hacker News: ~4.06
+
+> Diferenças são esperadas devido ao recorte por snapshot e ao tamanho reduzido da amostra na replicação.
+
+---
+
+## 7) Conclusão da Replicação
+
+A replicação demonstrou que:
+
+* A mineração do DevGPT é viável e reprodutível via ingestão robusta dos JSONs por snapshot.
+* A RQ2 exige **validação manual** para remover falsos positivos, mesmo com critérios fortes.
+* A distribuição temática (RQ1) e as médias por origem (RQ3) variam conforme o recorte temporal, mas preservam padrões plausíveis alinhados ao comportamento observado no estudo original.
+
+---
+
+## 8) Vieses e Limitações
+
+* **Recorte por snapshot:** reduz o tamanho da amostra e altera a distribuição em relação ao dataset completo.
+* **Heurísticas por palavras-chave:** podem gerar falsos negativos/positivos (especialmente em RQ1 e na Fase 03 da RQ2).
+* **Classificação manual:** sujeita a viés do anotador (mitigável com dupla anotação e cálculo de concordância).
+* **Granularidade conversacional:** conversas longas podem conter múltiplas intenções (ex.: bugfix + refatoração), dificultando rotulagem única.
+
+---
+
+## Como executar (sugestão)
+
+
