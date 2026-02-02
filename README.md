@@ -1,20 +1,26 @@
 # Replicação — Analyzing Developer-ChatGPT Conversations for Software Refactoring (DevGPT)
+        
 
-Perfeito 👍
-Segue uma **seção pronta para o README**, com **formato acadêmico/projeto**, organizada e fácil de manter. Deixei **campos editáveis** para você preencher nomes, matrículas e funções.
 
----
-
-##  Integrantes do Projeto
+## 👥 Integrantes do Projeto
 
 Esta seção apresenta os integrantes envolvidos na replicação do estudo, bem como suas respectivas matrículas e responsabilidades no projeto.
 
-| Nome do Integrante            | Matrícula | Função no Projeto                                                                                                                                         |
-| ----------------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Pedro Aikau Loureiro Lima** | XXXXXXX   | Responsável pela mineração dos dados, pré-processamento do dataset, replicação das RQs (RQ1, RQ2 e RQ3), análise dos resultados e documentação do projeto |
-| **Nome do Integrante 2**      | XXXXXXX   | Apoio na revisão metodológica, validação dos resultados e discussão comparativa com o artigo original                                                     |
-| **Nome do Integrante 3**      | XXXXXXX   | Apoio na análise estatística, revisão do código e organização do repositório                                                                              |
-| **Nome do Integrante 4**      | XXXXXXX   | Revisão textual, normalização do relatório e apoio na análise crítica dos vieses                                                                          |
+| Nome do Integrante                    | Matrícula  | Função no Projeto                                                                                        |
+| ------------------------------------- | ---------- | -------------------------------------------------------------------------------------------------------- |
+| **NATALIA VANESSA LOPES MACEDO**      | 2023006804 | Coordenação geral do projeto, organização das atividades e acompanhamento das entregas                   |
+| **GUSTAVO NEVES DA PAZ RAFAEL**       | 2023006831 | Líder técnico, responsável pela arquitetura da replicação, decisões metodológicas e integração do código |
+| **PEDRO AIKAU LOUREIRO LIMA**         | 2023006958 | Replicação (1): mineração dos dados, pré-processamento, análise estatística e implementação das RQs      |
+| **WALLACE LUAN DA CRUZ GUIMARÃES**    | 2023007310 | Replicação (2): apoio na implementação das RQs e validação dos resultados obtidos                        |
+| **GABRIEL JUNICHIRO SOARES INADA**    | 2023006662 | Replicação (3): apoio na análise dos dados e verificação metodológica                                    |
+| **YASMIM DOS SANTOS BARROS**          | 2022026704 | Replicação (4): apoio na classificação manual e validação das conversas                                  |
+| **GABRIEL HENRIQUE LEMOS DE ATHAYDE** | 2023007187 | Relatório (1): redação técnica, estruturação dos resultados e normalização acadêmica                     |
+| **RAUL DE LIMA LAVAREDA**             | 2023006967 | Relatório (2): revisão textual, análise crítica dos resultados e discussão                               |
+| **IURI OLIVEIRA MATOS DA SILVA**      | 2023007211 | Relatório (3): consolidação do relatório final e revisão geral                                           |
+| **ARAILSON DE PAIVA JUNIOR**          | 2023007122 | Responsável pelo seminário e apresentação dos resultados do projeto                                      |
+
+---
+
 
 
 
@@ -161,20 +167,23 @@ O dataset final contém:
 
 ### 6.1.2 Resultados
 
-> Inserir aqui o gráfico e percentuais finais.
+![RQ1](./assets/RQ1.png)
+
+
 
 * **Distribuição temática (replicação):**
 
-  * Documentation: `XX%`
-  * Issue: `XX%`
-  * New Feature: `XX%`
-  * Configuration: `XX%`
-  * Test: `XX%`
-  * Refactoring: `XX%`
-  * Other: `XX%`
+  * New Feature: `40.5%`
+  * Other: `23.2%`
+  * Issue: `11.1%`
+  * Documentation: `10.5%`
+  * Configuration: `10.0%`
+  * Refactoring: `3.7%`
+  * Test: `1.1%`
 
 ### 6.1.3 Comparação com o artigo
 
+![alt text](./assets/image.png)
 > Inserir comparação (quando houver percentuais reportados no paper).
 
 ---
@@ -217,11 +226,13 @@ A classificação foi aplicada **somente nas conversas confirmadas**:
 
 **Resultado:**
 
+![RQ2](./assets/RQ2.png)
+
 > Inserir distribuição final:
 
-* Refatoração Guiada: `XX`
-* Refatoração Aberta: `XX`
-* Não Classificada: `XX`
+* Refatoração Guiada: `67.4%`
+* Refatoração Aberta: `14.0%`
+* Não Classificada: `18.6%`
 
 ---
 
