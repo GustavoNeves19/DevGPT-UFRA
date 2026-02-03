@@ -289,7 +289,136 @@ A replicação demonstrou que:
 
 ---
 
-## Como executar (sugestão)
+Perfeito — abaixo está a **seção “Como Executar”**, escrita em **Markdown técnico**, clara, reprodutível e **alinhada a um README acadêmico no GitHub**, cobrindo:
+
+* Clonagem do repositório
+* Uso do **Git LFS**
+* Execução do script Python de mineração
+* Execução das análises no **Google Colab**
+
+---
+
+## ▶️ Como Executar o Projeto
+
+Esta seção descreve, passo a passo, como reproduzir o processo de mineração, pré-processamento e análise dos dados utilizados na replicação do estudo, a partir do repositório oficial.
+
+---
+
+### 1️⃣ Clonagem do Repositório
+
+Primeiramente, clone o repositório do projeto para sua máquina local:
+
+```bash
+git clone https://github.com/NAIST-SE/DevGPT
+git clone https://github.com/GustavoNeves19/DevGPT-UFRA
+cd SEU-REPOSITORIO
+```
+
+
+---
+
+### 2️⃣ Configuração do Git LFS (Arquivos Grandes)
+
+O dataset DevGPT contém arquivos de grande volume, armazenados via **Git Large File Storage (LFS)**.
+Certifique-se de que o Git LFS está instalado:
+
+```bash
+git lfs install
+```
+
+Em seguida, faça o download completo dos arquivos versionados via LFS:
+
+```bash
+git lfs pull
+```
+
+Isso garantirá que todos os arquivos `.json` dos snapshots estejam disponíveis localmente.
+
+---
+
+### 3️⃣ Estrutura Esperada do Projeto
+
+Após a clonagem, o repositório deve conter uma estrutura semelhante a:
+
+```text
+DevGPT-main/
+│
+├── snapshot_20230803/
+├── snapshot_20230914/
+├── mineracao.py
+├── base_minerada_msr25.csv
+├── Dev-ChatGpt.ipynb
+└── README.md
+```
+
+Os diretórios `snapshot_YYYYMMDD` contêm os arquivos JSON originais do dataset DevGPT.
+
+---
+
+### 4️⃣ Execução da Mineração dos Dados (Python)
+
+A mineração dos dados é realizada por meio do script Python `mineracao.py`, responsável por:
+
+* Percorrer os snapshots do DevGPT
+* Extrair conversas ChatGPT (Prompt/Answer)
+* Normalizar os dados
+* Gerar o dataset consolidado em CSV
+
+Execute o script com:
+
+```bash
+python mineracao.py
+```
+
+Ao final da execução, será gerado o arquivo:
+
+```text
+base_minerada_msr24.csv
+```
+
+Este arquivo contém todas as interações mineradas e normalizadas, servindo como base para as análises das RQs.
+
+---
+
+### 5️⃣ Execução das Análises no Google Colab
+
+As análises referentes às **RQ1, RQ2 e RQ3** são realizadas no notebook Jupyter/Colab:
+
+```text
+Dev-ChatGpt.ipynb
+```
+
+#### Passos recomendados:
+
+1. Acesse o Google Colab:
+   👉 [https://colab.research.google.com](https://colab.research.google.com)
+
+2. Faça upload do notebook `Dev-ChatGpt.ipynb`
+
+3. Faça upload do arquivo:
+
+   ```text
+   base_minerada_msr24.csv
+   ```
+
+4. Execute as células sequencialmente, seguindo a ordem:
+
+   * Carregamento do dataset
+   * Limpeza e filtragem por snapshot
+   * Execução das RQs
+   * Geração dos resultados e gráficos
+
+> ✅ Todas as dependências utilizadas (pandas, numpy, matplotlib, seaborn, re) já estão disponíveis no ambiente padrão do Colab.
+
+---
+
+### 6️⃣ Observações Importantes
+
+* A **classificação manual da RQ2 (Fase 02)** deve ser realizada diretamente no notebook, conforme descrito na metodologia.
+* Resultados podem variar levemente conforme o snapshot selecionado.
+* Para garantir fidelidade máxima ao artigo original, recomenda-se utilizar o snapshot **20230914**.
+
+
 
 
 
