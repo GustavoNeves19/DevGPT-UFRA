@@ -183,8 +183,8 @@ O dataset final contém:
 
 ### 6.1.3 Comparação com o artigo
 
-![alt text](./assets/image.png)
-> Inserir comparação (quando houver percentuais reportados no paper).
+![alt text](./assets/comparatios_RQ1s.png)
+
 
 ---
 
@@ -345,7 +345,7 @@ DevGPT-main/
 │
 ├── snapshot_20230803/
 ├── snapshot_20230914/
-├── mineracao.py
+├── devgpt_processor.py
 ├── base_minerada_msr25.csv
 ├── Dev-ChatGpt.ipynb
 └── README.md
@@ -357,7 +357,7 @@ Os diretórios `snapshot_YYYYMMDD` contêm os arquivos JSON originais do dataset
 
 ### 4️⃣ Execução da Mineração dos Dados (Python)
 
-A mineração dos dados é realizada por meio do script Python `mineracao.py`, responsável por:
+A mineração dos dados é realizada por meio do script Python `devgpt_processor.py`, responsável por:
 
 * Percorrer os snapshots do DevGPT
 * Extrair conversas ChatGPT (Prompt/Answer)
@@ -367,7 +367,7 @@ A mineração dos dados é realizada por meio do script Python `mineracao.py`, r
 Execute o script com:
 
 ```bash
-python mineracao.py
+python devgpt_processor.py
 ```
 
 Ao final da execução, será gerado o arquivo:
